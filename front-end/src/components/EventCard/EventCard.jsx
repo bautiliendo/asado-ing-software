@@ -1,12 +1,13 @@
 import './EventCard.css';
 
-function EventCard() {
+function EventCard({ event }) {
     return (
         <div className="event-card">
-            <h2>Asadito despedida USA</h2>
-            <p>06/12/2025 21:00</p>
-            <p>Casa Carri</p>
-            <p>Matambre a la pizza</p>
+            <h2>{event.name}</h2>
+            <p>📅 {new Date(event.date).toLocaleDateString('es-AR')}</p>
+            <p>⏰ {new Date(event.date).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })}</p>
+            <p>🏠 {event.location}</p>
+            <p>{event.description}</p>
             <button>Ver mas</button>
         </div>
     );
