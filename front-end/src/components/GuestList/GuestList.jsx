@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getExpensesByEventId, createExpense } from '../../services/expenseService';
-import { getAllGuests } from '../../services/guestService';
+import { getExpensesByEventId, createExpense, deleteExpense } from '../../services/expenseService';
+import { getAllGuests, createGuest, deleteGuest } from '../../services/guestService';
 import Modal from '../Modal/Modal';
 import ExpenseForm from '../ExpenseForm/ExpenseForm';
+import GuestForm from '../GuestForm/GuestForm';
 import './GuestList.css';
 
 function GuestList({ eventId }) {
@@ -10,6 +11,7 @@ function GuestList({ eventId }) {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+    const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,9 +36,10 @@ function GuestList({ eventId }) {
         fetchData();
     }, [eventId]);
 
-    const participatingGuests = guests.filter(guest =>
-        String(guest.event_id) === String(eventId)
-    );
+    const participatingGuests = guests.filter(guest => {
+        console.log('🔍 Filtrando invitado:', guest.name, 'event_id:', guest.event_id, 'eventId actual:', eventId);
+        return String(guest.event_id) === String(eventId);
+    });
 
     const getGuestName = (guestId) => {
         const guest = guests.find(g => g.id === guestId);
@@ -70,6 +73,56 @@ function GuestList({ eventId }) {
         }
     };
 
+    const handleAddGuestClick = () => {
+        setIsGuestModalOpen(true);
+    };
+
+    const handleCloseGuestModal = () => {
+        setIsGuestModalOpen(false);
+    };
+
+    const handleSaveGuest = async (formData) => {
+        try {
+            const newGuestData = {
+                ...formData,
+                event_id: parseInt(eventId)
+            };
+
+            const createdGuest = await createGuest(newGuestData);
+
+            setGuests([...guests, { ...createdGuest, event_id: parseInt(eventId) }]);
+            setIsGuestModalOpen(false);
+            alert('Invitado agregado exitosamente');
+        } catch (error) {
+            console.error('Error al guardar invitado:', error);
+            alert('Error al guardar el invitado');
+        }
+    };
+
+    const handleDeleteGuest = async (guestId) => {
+        if (window.confirm('¿Estás seguro de eliminar este invitado?')) {
+            try {
+                await deleteGuest(guestId);
+                setGuests(guests.filter(guest => guest.id !== guestId));
+            } catch (error) {
+                console.error('Error al eliminar invitado:', error);
+                alert('Error al eliminar el invitado');
+            }
+        }
+    };
+
+    const handleDeleteExpense = async (expenseId) => {
+        if (window.confirm('¿Estás seguro de eliminar este gasto?')) {
+            try {
+                await deleteExpense(expenseId);
+                setExpenses(expenses.filter(expense => expense.id !== expenseId));
+            } catch (error) {
+                console.error('Error al eliminar gasto:', error);
+                alert('Error al eliminar el gasto');
+            }
+        }
+    };
+
     const totalCost = expenses.reduce((total, expense) => total + expense.amount, 0);
     const costPerPerson = participatingGuests.length > 0 ? totalCost / participatingGuests.length : 0;
 
@@ -94,15 +147,20 @@ function GuestList({ eventId }) {
                                 <td>{guest.alias || '-'}</td>
                                 <td className="actions-cell">
                                     <div className="actions-container">
-                                        <button className="icon-button edit-guest-btn" title="Editar">Editar</button>
-                                        <button className="icon-button delete-guest-btn" title="Eliminar">Eliminar</button>
+                                        <button
+                                            className="icon-button delete-guest-btn"
+                                            title="Eliminar"
+                                            onClick={() => handleDeleteGuest(guest.id)}
+                                        >
+                                            Eliminar
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <button className="add-guest-button">
+                <button className="add-guest-button" onClick={handleAddGuestClick}>
                     + Agregar Invitado
                 </button>
             </div>
@@ -126,8 +184,14 @@ function GuestList({ eventId }) {
                                 <td className="amount-column">${expense.amount}</td>
                                 <td className="actions-cell">
                                     <div className="actions-container">
-                                        <button className="icon-button edit-guest-btn" title="Editar">Editar</button>
-                                        <button className="icon-button delete-guest-btn" title="Eliminar">Eliminar</button>
+                                        {/* <button className="icon-button edit-guest-btn" title="Editar">Editar</button> */}
+                                        <button
+                                            className="icon-button delete-guest-btn"
+                                            title="Eliminar"
+                                            onClick={() => handleDeleteExpense(expense.id)}
+                                        >
+                                            Eliminar
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -150,6 +214,13 @@ function GuestList({ eventId }) {
                     onSubmit={handleSaveExpense}
                     onCancel={handleCloseExpenseModal}
                     guests={guests}
+                />
+            </Modal>
+
+            <Modal isOpen={isGuestModalOpen} onClose={handleCloseGuestModal}>
+                <GuestForm
+                    onSubmit={handleSaveGuest}
+                    onCancel={handleCloseGuestModal}
                 />
             </Modal>
         </>

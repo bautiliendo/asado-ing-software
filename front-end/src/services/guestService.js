@@ -36,3 +36,20 @@ export const createGuest = async (guestData) => {
         throw error;
     }
 };
+
+export const deleteGuest = async (guestId) => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/guests/${guestId}`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al eliminar el invitado');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error al eliminar el invitado:', error);
+        throw error;
+    }
+};
