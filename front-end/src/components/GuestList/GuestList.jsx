@@ -128,6 +128,60 @@ function GuestList({ eventId }) {
         }
     };
 
+    const [distribution, setDistribution] = useState(null);
+
+    const calculateDistribution = () => {
+        const total = filteredExpenses.reduce((acc, curr) => acc + curr.amount, 0);
+        const average = total / participatingGuests.length;
+
+        // Calcular cuánto pagó cada uno
+        const paidByGuest = {};
+        participatingGuests.forEach(g => paidByGuest[g.id] = 0);
+
+        filteredExpenses.forEach(expense => {
+            if (paidByGuest[expense.guest_id] !== undefined) {
+                paidByGuest[expense.guest_id] += expense.amount;
+            }
+        });
+
+        // Calcular balances
+        const balances = [];
+        participatingGuests.forEach(guest => {
+            const paid = paidByGuest[guest.id] || 0;
+            const balance = paid - average;
+            balances.push({ ...guest, balance });
+        });
+
+        // Separar deudores y acreedores
+        const debtors = balances.filter(b => b.balance < -0.01).sort((a, b) => a.balance - b.balance);
+        const creditors = balances.filter(b => b.balance > 0.01).sort((a, b) => b.balance - a.balance);
+
+        const transactions = [];
+        let i = 0; // index for debtors
+        let j = 0; // index for creditors
+
+        while (i < debtors.length && j < creditors.length) {
+            const debtor = debtors[i];
+            const creditor = creditors[j];
+
+            const amount = Math.min(Math.abs(debtor.balance), creditor.balance);
+
+            transactions.push({
+                from: debtor.name,
+                to: creditor.name,
+                amount: amount
+            });
+
+            debtor.balance += amount;
+            creditor.balance -= amount;
+
+            if (Math.abs(debtor.balance) < 0.01) i++;
+            if (creditor.balance < 0.01) j++;
+        }
+
+        setDistribution(transactions);
+    };
+
     const totalCost = filteredExpenses.reduce((total, expense) => total + expense.amount, 0);
     const costPerPerson = participatingGuests.length > 0 ? totalCost / participatingGuests.length : 0;
 
@@ -211,6 +265,27 @@ function GuestList({ eventId }) {
                 <div className="totals-section">
                     <h3>Total de la compra: ${totalCost}</h3>
                     <p>Cada uno: ${costPerPerson.toFixed(2)}</p>
+
+                    <button className="calculate-button" onClick={calculateDistribution}>
+                        Repartir Gastos
+                    </button>
+
+                    {distribution && (
+                        <div className="distribution-results">
+                            <h4>💸 Reparto de gastos:</h4>
+                            {distribution.length === 0 ? (
+                                <p>¡Nadie debe nada! 🎉</p>
+                            ) : (
+                                <ul>
+                                    {distribution.map((t, index) => (
+                                        <li key={index}>
+                                            <span className="debtor">{t.from}</span> le debe a <span className="creditor">{t.to}</span>: <strong>${t.amount.toFixed(2)}</strong>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
