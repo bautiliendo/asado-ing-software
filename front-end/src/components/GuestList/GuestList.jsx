@@ -19,7 +19,7 @@ function GuestList({ eventId }) {
                 console.log('🔍 GuestList - EventId recibido:', eventId, 'Tipo:', typeof eventId);
                 const [expensesData, guestsData] = await Promise.all([
                     getExpensesByEventId(eventId),
-                    getAllGuests()
+                    getAllGuests() // Sigue trayendo TODOS los invitados
                 ]);
                 console.log('💰 Gastos obtenidos para evento', eventId, ':', expensesData);
                 setExpenses(expensesData);
@@ -33,6 +33,17 @@ function GuestList({ eventId }) {
 
         fetchData();
     }, [eventId]);
+
+    // ******************************************************************
+    // 💡 CÓDIGO MODIFICADO: Filtrado simple por guest.event_id
+    // ******************************************************************
+    const participatingGuests = guests.filter(guest =>
+        // Se asegura que el event_id del invitado coincida con el eventId de la URL.
+        // Se usa String() para asegurar la comparación entre tipos de datos (prop vs. API data).
+        String(guest.event_id) === String(eventId)
+    );
+    // ******************************************************************
+
 
     const getGuestName = (guestId) => {
         const guest = guests.find(g => g.id === guestId);
@@ -57,7 +68,6 @@ function GuestList({ eventId }) {
 
             const createdExpense = await createExpense(newExpenseData);
 
-            // Actualizar la lista de gastos localmente
             setExpenses([...expenses, createdExpense]);
             setIsExpenseModalOpen(false);
             alert('Gasto agregado exitosamente');
@@ -67,8 +77,9 @@ function GuestList({ eventId }) {
         }
     };
 
+    // La lógica de costo por persona AHORA usa la lista de invitados filtrada
     const totalCost = expenses.reduce((total, expense) => total + expense.amount, 0);
-    const costPerPerson = guests.length > 0 ? totalCost / guests.length : 0;
+    const costPerPerson = participatingGuests.length > 0 ? totalCost / participatingGuests.length : 0;
 
     if (loading) return <p>Cargando invitados y gastos...</p>;
 
@@ -85,7 +96,8 @@ function GuestList({ eventId }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {guests.map(guest => (
+                        {/* 💡 Iteramos sobre la nueva lista filtrada: participatingGuests */}
+                        {participatingGuests.map(guest => (
                             <tr key={guest.id}>
                                 <td>{guest.name}</td>
                                 <td>{guest.alias || '-'}</td>

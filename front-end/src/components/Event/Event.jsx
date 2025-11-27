@@ -72,19 +72,17 @@ function Event() {
                 <div className="event-content">
                     <div className="event-info">
                         <h1>{event.name}</h1>
-                        <p><strong>📅 Fecha:</strong> {new Date(event.date).toLocaleDateString('es-AR', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })}</p>
-                        <p><strong>⏰ Hora:</strong> {new Date(event.date).toLocaleTimeString('es-AR', {
+                        <p>
+                            <strong>📅 Fecha:</strong>
+                            {new Date(event.date).toLocaleDateString('es-AR')}
+                        </p>
+                        <p><strong>⏰ Hora:</strong>{new Date(event.date).toLocaleTimeString('es-AR', {
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: false
                         })}</p>
-                        <p><strong>📍 Ubicación:</strong> {event.location}</p>
-                        <p><strong>📝 Descripción:</strong> {event.description}</p>
+                        <p><strong>📍 Ubicación:</strong>{event.location}</p>
+                        <p><strong>📝 Descripción:</strong>{event.description}</p>
 
                         <div className="button-group">
                             <button onClick={handleEdit} className="edit-button">Editar Evento</button>
