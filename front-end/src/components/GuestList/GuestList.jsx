@@ -218,7 +218,7 @@ function GuestList({ eventId }) {
                 <ExpenseForm
                     onSubmit={handleSaveExpense}
                     onCancel={handleCloseExpenseModal}
-                    guests={guests}
+                    guests={participatingGuests}
                 />
             </Modal>
 
