@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import './EventCard.css';
 
 function EventCard({ event }) {
@@ -8,7 +9,7 @@ function EventCard({ event }) {
             <p>⏰ {new Date(event.date).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })}</p>
             <p>🏠 {event.location}</p>
             <p>{event.description}</p>
-            <button>Ver mas</button>
+            <NavLink to={`/event/${event.id}`} >Ver mas</NavLink>
         </div>
     );
 }

@@ -1,0 +1,134 @@
+.guest-list-container {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    height: fit-content;
+    width: 100%;
+}
+
+.guest-list-container h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #4a90e2;
+}
+
+.guest-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.guest-table th {
+    text-align: left;
+    padding: 12px;
+    color: #666;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eee;
+}
+
+.guest-table td {
+    padding: 16px 12px;
+    border-bottom: 1px solid #f5f5f5;
+    color: #333;
+    vertical-align: middle;
+}
+
+.guest-table tr {
+    height: 60px;
+}
+
+.guest-table tr:last-child td {
+    border-bottom: none;
+}
+
+.amount-column {
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+/* Estilos para la columna y botones de acciones */
+.actions-cell {
+    /* Ya no necesita flex aquí, dejamos que se comporte como celda normal */
+    width: 160px;
+    /* Ancho fijo para evitar saltos */
+}
+
+.actions-container {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Botón Editar (Estilo igual a Event.css pero más pequeño) */
+.edit-guest-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+}
+
+.edit-guest-btn:hover {
+    background-color: #357abd;
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4);
+    transform: translateY(-1px);
+}
+
+.edit-guest-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(74, 144, 226, 0.3);
+}
+
+/* Botón Eliminar (Estilo igual a Event.css pero más pequeño) */
+.delete-guest-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(231, 76, 60, 0.3);
+}
+
+.delete-guest-btn:hover {
+    background-color: #c0392b;
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
+    transform: translateY(-1px);
+}
+
+.delete-guest-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(231, 76, 60, 0.3);
+}
+
+.add-guest-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border: 2px dashed #cbd5e0;
+    color: #666;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.add-guest-button:hover {
+    background-color: #eef2f7;
+    border-color: #4a90e2;
+    color: #4a90e2;
+}

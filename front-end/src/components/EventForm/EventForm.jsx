@@ -1,13 +1,20 @@
 import { useState } from 'react';
 import './EventForm.css';
 
-function EventForm({ onSubmit, onCancel }) {
-    const [formData, setFormData] = useState({
-        name: '',
-        date: '',
-        location: '',
-        description: ''
-    });
+function EventForm({ onSubmit, onCancel, initialData = null, isEditing = false }) {
+    const [formData, setFormData] = useState(
+        initialData ? {
+            name: initialData.name,
+            date: initialData.date ? new Date(initialData.date).toISOString().slice(0, 16) : '',
+            location: initialData.location,
+            description: initialData.description || ''
+        } : {
+            name: '',
+            date: '',
+            location: '',
+            description: ''
+        }
+    );
 
     const handleChange = (e) => {
         setFormData({
@@ -23,7 +30,7 @@ function EventForm({ onSubmit, onCancel }) {
 
     return (
         <form className="event-form" onSubmit={handleSubmit}>
-            <h2>Nuevo Evento</h2>
+            <h2>{isEditing ? 'Editar Evento' : 'Nuevo Evento'}</h2>
 
             <div className="form-group">
                 <label>Nombre del evento *</label>
@@ -76,7 +83,7 @@ function EventForm({ onSubmit, onCancel }) {
                     Cancelar
                 </button>
                 <button type="submit" className="btn-submit">
-                    Crear Evento
+                    {isEditing ? 'Guardar Cambios' : 'Crear Evento'}
                 </button>
             </div>
         </form>

@@ -1,9 +1,9 @@
-import Inicio from "./components/Inicio/Inicio";
+import Rutas from "./Rutas";
 
 function App() {
     return (
         <div>
-            <Inicio />
+            <Rutas />
         </div>
     );
 }

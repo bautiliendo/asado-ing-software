@@ -31,7 +31,8 @@
     line-height: 1.4;
 }
 
-.event-card button {
+.event-card button,
+.event-card a {
     width: 100%;
     padding: 10px;
     background-color: #4a90e2;
@@ -43,8 +44,12 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     margin-top: 8px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
 }
 
-.event-card button:hover {
+.event-card button:hover,
+.event-card a:hover {
     background-color: #2c5aa0;
 }
