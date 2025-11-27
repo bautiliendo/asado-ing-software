@@ -19,7 +19,7 @@ function GuestList({ eventId }) {
                 console.log('🔍 GuestList - EventId recibido:', eventId, 'Tipo:', typeof eventId);
                 const [expensesData, guestsData] = await Promise.all([
                     getExpensesByEventId(eventId),
-                    getAllGuests() // Sigue trayendo TODOS los invitados
+                    getAllGuests()
                 ]);
                 console.log('💰 Gastos obtenidos para evento', eventId, ':', expensesData);
                 setExpenses(expensesData);
@@ -34,16 +34,9 @@ function GuestList({ eventId }) {
         fetchData();
     }, [eventId]);
 
-    // ******************************************************************
-    // 💡 CÓDIGO MODIFICADO: Filtrado simple por guest.event_id
-    // ******************************************************************
     const participatingGuests = guests.filter(guest =>
-        // Se asegura que el event_id del invitado coincida con el eventId de la URL.
-        // Se usa String() para asegurar la comparación entre tipos de datos (prop vs. API data).
         String(guest.event_id) === String(eventId)
     );
-    // ******************************************************************
-
 
     const getGuestName = (guestId) => {
         const guest = guests.find(g => g.id === guestId);
@@ -77,7 +70,6 @@ function GuestList({ eventId }) {
         }
     };
 
-    // La lógica de costo por persona AHORA usa la lista de invitados filtrada
     const totalCost = expenses.reduce((total, expense) => total + expense.amount, 0);
     const costPerPerson = participatingGuests.length > 0 ? totalCost / participatingGuests.length : 0;
 
@@ -96,7 +88,6 @@ function GuestList({ eventId }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* 💡 Iteramos sobre la nueva lista filtrada: participatingGuests */}
                         {participatingGuests.map(guest => (
                             <tr key={guest.id}>
                                 <td>{guest.name}</td>
