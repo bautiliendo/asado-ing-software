@@ -1,8 +1,8 @@
-const API_URL = 'http://localhost:3000/api/expenses';
+
 
 export const getAllExpenses = async () => {
     try {
-        const response = await fetch(API_URL);
+        const response = await fetch('http://localhost:3000/api/expenses');
 
         if (!response.ok) {
             throw new Error('Error al traer los gastos');
@@ -18,9 +18,8 @@ export const getAllExpenses = async () => {
 
 export const getExpensesByEventId = async (eventId) => {
     try {
-        // Asegurar que eventId sea un número
         const numericEventId = parseInt(eventId, 10);
-        const url = `${API_URL}?eventId=${numericEventId}`;
+        const url = `${'http://localhost:3000/api/expenses'}?eventId=${numericEventId}`;
         console.log('🌐 Llamando a URL:', url);
         const response = await fetch(url);
 
@@ -39,7 +38,7 @@ export const getExpensesByEventId = async (eventId) => {
 
 export const createExpense = async (expenseData) => {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch('http://localhost:3000/api/expenses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,7 +60,7 @@ export const createExpense = async (expenseData) => {
 
 export const updateExpense = async (expenseId, expenseData) => {
     try {
-        const response = await fetch(`${API_URL}/${expenseId}`, {
+        const response = await fetch(`${'http://localhost:3000/api/expenses'}/${expenseId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +82,7 @@ export const updateExpense = async (expenseId, expenseData) => {
 
 export const deleteExpense = async (expenseId) => {
     try {
-        const response = await fetch(`${API_URL}/${expenseId}`, {
+        const response = await fetch(`${'http://localhost:3000/api/expenses'}/${expenseId}`, {
             method: 'DELETE',
         });
 

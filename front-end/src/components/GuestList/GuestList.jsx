@@ -104,7 +104,6 @@ function GuestList({ eventId }) {
                 </button>
             </div>
 
-            {/* Sección de Gastos */}
             <div className="expenses-section">
                 <h2>💰 Gastos</h2>
                 <table className="guest-table">
