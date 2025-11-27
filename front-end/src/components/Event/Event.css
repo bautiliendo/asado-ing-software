@@ -146,3 +146,22 @@
         padding: 12px;
     }
 }
+
+/* Flecha para volver */
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #4a90e2;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    grid-column: 1 / -1; /* Ocupa todo el ancho en el grid */
+    width: fit-content;
+}
+
+.back-arrow:hover {
+    color: #357abd;
+    transform: translateX(-5px);
+}
