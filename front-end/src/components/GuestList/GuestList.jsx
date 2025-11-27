@@ -41,6 +41,11 @@ function GuestList({ eventId }) {
         return String(guest.event_id) === String(eventId);
     });
 
+    const filteredExpenses = expenses.filter(expense => {
+        console.log('💰 Filtrando gasto:', expense.description, 'event_id:', expense.event_id, 'eventId actual:', eventId);
+        return String(expense.event_id) === String(eventId);
+    });
+
     const getGuestName = (guestId) => {
         const guest = guests.find(g => g.id === guestId);
         return guest ? guest.name : 'Desconocido';
@@ -123,7 +128,7 @@ function GuestList({ eventId }) {
         }
     };
 
-    const totalCost = expenses.reduce((total, expense) => total + expense.amount, 0);
+    const totalCost = filteredExpenses.reduce((total, expense) => total + expense.amount, 0);
     const costPerPerson = participatingGuests.length > 0 ? totalCost / participatingGuests.length : 0;
 
     if (loading) return <p>Cargando invitados y gastos...</p>;
@@ -177,7 +182,7 @@ function GuestList({ eventId }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {expenses.map(expense => (
+                        {filteredExpenses.map(expense => (
                             <tr key={expense.id}>
                                 <td>{getGuestName(expense.guest_id)}</td>
                                 <td>{expense.description}</td>
