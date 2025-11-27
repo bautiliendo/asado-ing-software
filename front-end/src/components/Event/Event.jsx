@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { deleteEvent, updateEvent } from "../../services/eventService";
 import Modal from "../Modal/Modal";
@@ -70,6 +70,9 @@ function Event() {
                 <p>Cargando evento...</p>
             ) : event ? (
                 <div className="event-content">
+                    <Link to="/" className="back-arrow">
+                        ← Volver
+                    </Link>
                     <div className="event-info">
                         <h1>{event.name}</h1>
                         <p>
