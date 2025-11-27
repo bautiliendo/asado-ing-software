@@ -50,6 +50,15 @@ export const updateGuest = async (id: number, guest: Partial<Guest>) => {
 };
 
 export const deleteGuest = async (id: number) => {
+    // Primero eliminar los gastos asociados al invitado
+    const { error: expenseError } = await supabase
+        .from('expenses')
+        .delete()
+        .eq('guest_id', id);
+
+    if (expenseError) throw expenseError;
+
+    // Luego eliminar al invitado
     const { error } = await supabase
         .from('guests')
         .delete()
