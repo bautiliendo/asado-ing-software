@@ -92,7 +92,7 @@ function Event() {
                         </div>
                     </div>
 
-                    <GuestList />
+                    <GuestList eventId={id} />
                 </div>
             ) : (
                 <p>No se encontró el evento</p>

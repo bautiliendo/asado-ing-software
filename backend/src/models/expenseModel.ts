@@ -17,6 +17,21 @@ export const getExpenses = async () => {
     return data;
 };
 
+export const getExpensesByEventId = async (eventId: number) => {
+    console.log('🗄️ Modelo - Consultando gastos para event_id:', eventId);
+    const { data, error } = await supabase
+        .from('expenses')
+        .select('*')
+        .eq('event_id', eventId);
+
+    if (error) {
+        console.error('❌ Error en Supabase:', error);
+        throw error;
+    }
+    console.log('✅ Datos de Supabase:', data);
+    return data;
+};
+
 export const getExpenseById = async (id: number) => {
     const { data, error } = await supabase
         .from('expenses')

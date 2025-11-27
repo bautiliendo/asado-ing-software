@@ -3,8 +3,19 @@ import * as expenseModel from '../models/expenseModel';
 
 export const getAllExpenses = async (req: Request, res: Response) => {
     try {
-        const expenses = await expenseModel.getExpenses();
-        res.json(expenses);
+        const eventId = req.query.eventId ? parseInt(req.query.eventId as string) : null;
+        console.log('🔍 Backend - Query params:', req.query);
+        console.log('🔍 Backend - EventId parseado:', eventId, 'Tipo:', typeof eventId);
+
+        if (eventId) {
+            const expenses = await expenseModel.getExpensesByEventId(eventId);
+            console.log('💰 Backend - Gastos filtrados para evento', eventId, ':', expenses);
+            res.json(expenses);
+        } else {
+            const expenses = await expenseModel.getExpenses();
+            console.log('💰 Backend - Todos los gastos:', expenses);
+            res.json(expenses);
+        }
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }

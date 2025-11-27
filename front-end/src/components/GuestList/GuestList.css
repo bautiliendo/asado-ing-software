@@ -1,4 +1,5 @@
-.guest-list-container {
+.guests-section,
+.expenses-section {
     background-color: white;
     border-radius: 16px;
     padding: 24px;
@@ -8,10 +9,11 @@
     width: 100%;
 }
 
-.guest-list-container h2 {
-    font-size: 1.5rem;
+.guests-section h2,
+.expenses-section h2 {
+    font-size: 1.3rem;
     color: #1a1a1a;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: 2px solid #4a90e2;
 }
@@ -23,22 +25,23 @@
 
 .guest-table th {
     text-align: left;
-    padding: 12px;
+    padding: 10px 8px;
     color: #666;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     border-bottom: 1px solid #eee;
 }
 
 .guest-table td {
-    padding: 16px 12px;
+    padding: 12px 8px;
     border-bottom: 1px solid #f5f5f5;
     color: #333;
     vertical-align: middle;
+    font-size: 0.9rem;
 }
 
 .guest-table tr {
-    height: 60px;
+    height: 50px;
 }
 
 .guest-table tr:last-child td {
@@ -52,25 +55,23 @@
 
 /* Estilos para la columna y botones de acciones */
 .actions-cell {
-    /* Ya no necesita flex aquí, dejamos que se comporte como celda normal */
-    width: 160px;
-    /* Ancho fijo para evitar saltos */
+    width: 140px;
 }
 
 .actions-container {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     justify-content: flex-start;
     align-items: center;
 }
 
-/* Botón Editar (Estilo igual a Event.css pero más pequeño) */
+/* Botón Editar */
 .edit-guest-btn {
     background-color: #4a90e2;
     color: white;
     border: none;
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    padding: 5px 10px;
+    font-size: 0.8rem;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
@@ -89,13 +90,13 @@
     box-shadow: 0 1px 2px rgba(74, 144, 226, 0.3);
 }
 
-/* Botón Eliminar (Estilo igual a Event.css pero más pequeño) */
+/* Botón Eliminar */
 .delete-guest-btn {
     background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    padding: 5px 10px;
+    font-size: 0.8rem;
     font-weight: 600;
     border-radius: 6px;
     cursor: pointer;
@@ -116,14 +117,15 @@
 
 .add-guest-button {
     width: 100%;
-    margin-top: 20px;
-    padding: 12px;
+    margin-top: 16px;
+    padding: 10px;
     background-color: #f8f9fa;
     border: 2px dashed #cbd5e0;
     color: #666;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 0.9rem;
     transition: all 0.2s;
 }
 
@@ -131,4 +133,22 @@
     background-color: #eef2f7;
     border-color: #4a90e2;
     color: #4a90e2;
+}
+
+.totals-section {
+    margin-top: 16px;
+    border-top: 2px solid #eee;
+    padding-top: 16px;
+}
+
+.totals-section h3 {
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.totals-section p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 4px 0;
 }
